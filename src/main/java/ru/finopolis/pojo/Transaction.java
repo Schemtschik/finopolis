@@ -93,8 +93,9 @@ public class Transaction {
                     arr[6],
                     Long.parseLong(arr[7]),
                     categoriesById.containsKey(Long.parseLong(arr[7]))
+                            && !categoriesById.get(Long.parseLong(arr[7])).equals("Unique")
                             ? categoriesById.get(Long.parseLong(arr[7]))
-                            : arr[8]
+                            : arr[8].substring(arr[8].indexOf(' '))
             ));
         } catch (ArrayIndexOutOfBoundsException e) {
             return Optional.empty();

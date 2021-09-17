@@ -65,14 +65,15 @@ public class TransactionsDao {
     }
 
     public Map<String, List<CategoryStat>> getCategoriesStat(long userId) {
-        Map<String, Map<Long, List<Transaction>>> transactionsByKey = getTransactions(userId)
+        Map<String, Map<String, List<Transaction>>> transactionsByKey = getTransactions(userId)
                 .stream()
+                .filter(transaction -> transaction.getAmount() < 0.0)
                 .collect(Collectors.groupingBy(
                         t -> LocalDate.ofEpochDay(t.getTimestamp()).getMonth().getValue()
                                 + "."
                                 + LocalDate.ofEpochDay(t.getTimestamp()).getYear(),
                         Collectors.groupingBy(
-                                Transaction::getCategoryId,
+                                Transaction::getCategoryDescription,
                                 Collectors.toList()
                         )
                 ));
